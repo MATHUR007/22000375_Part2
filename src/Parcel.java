@@ -6,7 +6,6 @@ public class Parcel {
     private double weight;
     private Dimensions dimensions;
     private String Status;
-    private double discount;
 
 
     public class Dimensions{
@@ -26,13 +25,12 @@ public class Parcel {
     }
 
     //constructor
-    public Parcel(String ID,int did,double weight,Dimensions dimensions,double discount){
+    public Parcel(String ID,int did,double weight,Dimensions dimensions){
     this.parcelid=ID;
     this.days_in_depot=did;
     this.weight=weight;
     this.dimensions=dimensions;
     this.Status="waiting";
-    this.discount=discount;
     }
 
     //method1-getID
@@ -50,6 +48,23 @@ public class Parcel {
 
     //method4-weight
     public double getWeight() {return weight;}
+
+    //method 5-dimensions
+    public Dimensions getdimensions(){return dimensions;}
+
+    
+    //method4-weight
+    public double getStatus() {return Status;}
+
+    //string method
+    public String toString() {
+        return "Parcel{" +
+               "parcelID='" + parcelid + 
+               ", daysInDepot=" + days_in_depot +
+               ", weight=" + weight +
+               ", dimensions=" + dimensions +
+               ", Status=" + Status +
+               '}';
 
 }
 

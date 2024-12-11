@@ -1,0 +1,31 @@
+public class Customer {
+    private int seqNo;
+    private String name;
+    private String parcelID;
+
+    
+    public Customer(int seqNo, String name, String parcelID) {
+        this.seqNo = seqNo;
+        this.name = name;
+        this.parcelID = parcelID;
+    }
+
+    // Getters and Setters
+    public int getSeqNo() { return seqNo; }
+    public void setSeqNo(int seqNo) { this.seqNo = seqNo; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getParcelID() { return parcelID; }
+    public void setParcelID(String parcelID) { this.parcelID = parcelID; }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+               "seqNo=" + seqNo +
+               ", name='" + name + '\'' +
+               ", parcelID='" + parcelID + '\'' +
+               '}';
+    }
+}
