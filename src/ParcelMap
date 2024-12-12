@@ -1,0 +1,66 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+public class ParcelMap {
+    private Map<String, Parcel> parcels;
+
+    public ParcelMap() {
+        this.parcels = new HashMap<>();
+    }
+
+    // Add a parcel to the map
+    public void addParcel(Parcel parcel) {
+        if (parcel == null) {
+            throw new IllegalArgumentException("Cannot add null parcel");
+        }
+        if (parcel.getParcelID() == null) {
+            throw new IllegalArgumentException("Parcel must have a valid ID");
+        }
+        parcels.put(parcel.getParcelID(), parcel);
+    }
+
+    // Remove a parcel by its ID
+    public Parcel removeParcel(String parcelID) {
+        if (parcelID == null) {
+            throw new IllegalArgumentException("Parcel ID cannot be null");
+        }
+        Parcel removedParcel = parcels.remove(parcelID);
+        if (removedParcel == null) {
+            throw new NoSuchElementException("Parcel with ID " + parcelID + " not found");
+        }
+        return removedParcel;
+    }
+
+    // Retrieve a parcel by its ID
+    public Parcel getParcel(String parcelID) {
+        if (parcelID == null) {
+            throw new IllegalArgumentException("Parcel ID cannot be null");
+        }
+        Parcel parcel = parcels.get(parcelID);
+        if (parcel == null) {
+            throw new NoSuchElementException("Parcel with ID " + parcelID + " not found");
+        }
+        return parcel;
+    }
+
+    // Get all parcels
+    public Map<String, Parcel> getAllParcels() {
+        return new HashMap<>(parcels);
+    }
+
+    // Check if a parcel exists
+    public boolean hasParcel(String parcelID) {
+        return parcels.containsKey(parcelID);
+    }
+
+    // Get the number of parcels
+    public int getParcelCount() {
+        return parcels.size();
+    }
+
+    // Check if the parcel map is empty
+    public boolean isEmpty() {
+        return parcels.isEmpty();
+    }
+}
