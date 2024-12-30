@@ -1,66 +1,45 @@
 import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
+/**
+ * Class representing a map of parcels.
+ * This class provides methods to add and retrieve parcels by their ID.
+ */
 public class ParcelMap {
-    private Map<String, Parcel> parcels;
+    private HashMap<String, Parcel> parcels;
 
+    /**
+     * Constructs a ParcelMap instance.
+     */
     public ParcelMap() {
-        this.parcels = new HashMap<>();
+        parcels = new HashMap<>();
     }
 
-    // Add a parcel to the map
+    /**
+     * Adds a parcel to the map.
+     *
+     * @param parcel the parcel to be added
+     */
     public void addParcel(Parcel parcel) {
-        if (parcel == null) {
-            throw new IllegalArgumentException("Cannot add null parcel");
-        }
-        if (parcel.getParcelID() == null) {
-            throw new IllegalArgumentException("Parcel must have a valid ID");
-        }
         parcels.put(parcel.getParcelID(), parcel);
     }
 
-    // Remove a parcel by its ID
-    public Parcel removeParcel(String parcelID) {
-        if (parcelID == null) {
-            throw new IllegalArgumentException("Parcel ID cannot be null");
-        }
-        Parcel removedParcel = parcels.remove(parcelID);
-        if (removedParcel == null) {
-            throw new NoSuchElementException("Parcel with ID " + parcelID + " not found");
-        }
-        return removedParcel;
-    }
-
-    // Retrieve a parcel by its ID
+    /**
+     * Retrieves a parcel by its ID.
+     *
+     * @param parcelID the ID of the parcel to retrieve
+     * @return the parcel with the specified ID, or null if not found
+     */
     public Parcel getParcel(String parcelID) {
-        if (parcelID == null) {
-            throw new IllegalArgumentException("Parcel ID cannot be null");
-        }
-        Parcel parcel = parcels.get(parcelID);
-        if (parcel == null) {
-            throw new NoSuchElementException("Parcel with ID " + parcelID + " not found");
-        }
-        return parcel;
+        return parcels.get(parcelID);
     }
 
-    // Get all parcels
-    public Map<String, Parcel> getAllParcels() {
-        return new HashMap<>(parcels);
-    }
-
-    // Check if a parcel exists
-    public boolean hasParcel(String parcelID) {
-        return parcels.containsKey(parcelID);
-    }
-
-    // Get the number of parcels
-    public int getParcelCount() {
-        return parcels.size();
-    }
-
-    // Check if the parcel map is empty
-    public boolean isEmpty() {
-        return parcels.isEmpty();
+    /**
+     * Returns a string representation of all parcels in the map.
+     *
+     * @return a string containing all parcels
+     */
+    @Override
+    public String toString() {
+        return parcels.values().toString();
     }
 }

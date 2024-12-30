@@ -1,0 +1,26 @@
+/**
+ * Class responsible for calculating fees for parcels.
+ */
+public class Worker {
+
+    /**
+     * Calculates the fee for a given parcel based on its weight.
+     * If the parcel ID ends with '6', a discount is applied.
+     *
+     * @param parcel the parcel for which to calculate the fee
+     * @return the calculated fee after applying any discounts
+     */
+    public double calculateFee(Parcel parcel) {
+        double baseFee = 5.0; // Base fee for processing
+        double weightFee = parcel.getWeight() * 0.5; // Fee per kilogram
+        double totalFee = baseFee + weightFee;
+
+        // Apply a discount if the parcel ID ends with '6'
+        if (parcel.getParcelID().endsWith("6")) {
+            double discount = totalFee * 0.10; // 10% discount
+            totalFee -= discount;
+        }
+
+        return totalFee;
+    }
+}
