@@ -1,0 +1,175 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+/**
+ * The Manager class serves as the controller in the MVC pattern.
+ * It manages the application logic, including loading data, processing customers,
+ * and interacting with the GUI.
+ */
+public class Manager {
+    private QueueOfCustomers queueOfCustomers;
+    private ParcelMap parcelMap;
+    private Worker worker;
+    private Log log;
+    private JFrame frame;
+    private JTextArea logArea;
+    private JTextArea customerArea;
+    private JTextArea parcelArea;
+
+    /**
+     * Constructs a Manager instance and initializes the GUI and data structures.
+     */
+    public Manager() {
+        queueOfCustomers = new QueueOfCustomers();
+        parcelMap = new ParcelMap();
+        worker = new Worker();
+        log = Log.getInstance();
+        initializeGUI();
+    }
+
+    /**
+     * Initializes the GUI components.
+     */
+    private void initializeGUI() {
+        frame = new JFrame("Parcel Collection System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400);
+        frame.setLayout(new BorderLayout());
+
+        logArea = new JTextArea();
+        customerArea = new JTextArea();
+        parcelArea = new JTextArea();
+
+        JButton processButton = new JButton("Process Next Customer");
+        processButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                processNextCustomer();
+            }
+        });
+
+        JButton loadButton = new JButton("Load Data");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadData("customers.txt", "parcels.txt"); // Replace with actual file paths
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(loadButton);
+        buttonPanel.add(processButton);
+
+        frame.add(new JScrollPane(logArea), BorderLayout.WEST);
+        frame.add(new JScrollPane(customerArea), BorderLayout.CENTER);
+        frame.add(new JScrollPane(parcelArea), BorderLayout.EAST);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
+
+    /**
+     * Loads customer and parcel data from specified files.
+     *
+     * @param customerFile the path to the customer data file
+     * @param parcelFile   the path to the parcel data file
+     */
+    public void loadData(String customerFile, String parcelFile) {
+        loadCustomers(customerFile);
+        loadParcels(parcelFile);
+    }
+
+    /**
+     * Loads customers from a specified file.
+     *
+     * @param filename the path to the customer data file
+     */
+    private void loadCustomers(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                int seqNo = Integer.parseInt(data[0].trim());
+                String name = data[1].trim();
+                String parcelID = data[2].trim();
+                queueOfCustomers.addCustomer(new Customer(seqNo, name, parcelID));
+                log.addEntry("Added customer: " + name);
+            }
+        } catch (IOException e) {
+            log.addEntry("Error loading customers: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads parcels from a specified file.
+     *
+     * @param filename the path to the parcel data file
+     */
+    private void loadParcels(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String parcelID = data[0].trim();
+                int daysInDepot = Integer.parseInt(data[1].trim());
+                double weight = Double.parseDouble(data[2].trim());
+                String dimensions = data[3].trim();
+                parcelMap.addParcel(new Parcel(parcelID, weight, dimensions, daysInDepot));
+                log.addEntry("Added parcel: " + parcelID);
+            }
+        } catch (IOException e) {
+            log.addEntry("Error loading parcels: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Processes the next customer in the queue.
+     */
+    private void processNextCustomer() {
+        Customer customer = queueOfCustomers.removeCustomer();
+        if (customer != null) {
+            Parcel parcel = parcelMap.getParcel(customer.getParcelID());
+            if (parcel != null) {
+                double fee = worker.calculateFee(parcel);
+                log.addEntry("Processed customer: " + customer.getName() + ", Fee: " + fee);
+                updateDisplay();
+            } else {
+                appendLog("Parcel not found for customer: " + customer.getName() + "\n");
+            }
+        } else {
+            appendLog("No customers in queue.\n");
+        }
+    }
+
+    /**
+     * Updates the GUI display with the latest information.
+     */
+    private void updateDisplay() {
+        logArea.setText(log.getLogEntries());
+        customerArea.setText(queueOfCustomers.getQueue().toString());
+        parcelArea.setText(parcelMap.toString());
+    }
+
+    /**
+     * Appends a message to the log area in the GUI.
+     *
+     * @param message the message to append
+     */
+    public void appendLog(String message) {
+        logArea.append(message);
+    }
+
+    /**
+     * The main method to run the application.
+     *
+     * @param args command line arguments
+     */
+    public static void main(String[] args) {
+        new Manager(); // Start the application
+    }
+}
