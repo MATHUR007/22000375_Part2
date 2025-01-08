@@ -1,73 +1,103 @@
-
-
 public class Parcel {
-    private String parcelid;
-    private int days_in_depot;
-    private double weight;
-    private Dimensions dimensions;
-    private String Status;
+    private String parcelID;      
+    private double weight;        
+    private String dimensions;    
+    private int daysInDepot;      
 
-
-    public class Dimensions{
-        private double length;
-        private double width;
-        private double height;
-
-        public Dimensions(double length,double width,double height) {
-            this.length = length;
-            this.width=width;
-            this.height=height;
-        }
-
-        public double calculateVolume() {
-            return length * width * height;
-        }
+    /**
+     * Constructs a new Parcel with the specified details.
+     *
+     * @param parcelID     the unique identifier for the parcel
+     * @param weight       the weight of the parcel
+     * @param dimensions   the dimensions of the parcel
+     * @param daysInDepot  the number of days the parcel has been in the depot
+     */
+    public Parcel(String parcelID, double weight, String dimensions, int daysInDepot) {
+        this.parcelID = parcelID;
+        this.weight = weight;
+        this.dimensions = dimensions;
+        this.daysInDepot = daysInDepot;
     }
 
-    //constructor
-    public Parcel(String ID,int did,double weight,Dimensions dimensions){
-    this.parcelid=ID;
-    this.days_in_depot=did;
-    this.weight=weight;
-    this.dimensions=dimensions;
-    this.Status="waiting";
+    /**
+     * Gets the unique identifier of the parcel.
+     *
+     * @return the parcel ID
+     */
+    public String getParcelID() {
+        return parcelID;
     }
 
-    //method1-getID
-    public String getID() {
-        return parcelid;
+    /**
+     * Sets the unique identifier of the parcel.
+     *
+     * @param parcelID the new parcel ID
+     */
+    public void setParcelID(String parcelID) {
+        this.parcelID = parcelID;
     }
 
-    //method2-daysindepot
-    public int getdays_in_depot() {return days_in_depot;}
-
-    //method3-dimensions
-    public double calculateVolume() {
-        return dimensions.calculateVolume();
+    /**
+     * Gets the weight of the parcel.
+     *
+     * @return the weight of the parcel
+     */
+    public double getWeight() {
+        return weight;
     }
 
-    //method4-weight
-    public double getWeight() {return weight;}
+    /**
+     * Sets the weight of the parcel.
+     *
+     * @param weight the new weight of the parcel
+     */
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
 
-    //method 5-dimensions
-    public Dimensions getdimensions(){return dimensions;}
+    /**
+     * Gets the dimensions of the parcel.
+     *
+     * @return the dimensions of the parcel
+     */
+    public String getDimensions() {
+        return dimensions;
+    }
 
-    
-    //method4-weight
-    public double getStatus() {return Status;}
+    /**
+     * Sets the dimensions of the parcel.
+     *
+     * @param dimensions the new dimensions of the parcel
+     */
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
+    }
 
-    //string method
+    /**
+     * Gets the number of days the parcel has been in the depot.
+     *
+     * @return the number of days in depot
+     */
+    public int getDaysInDepot() {
+        return daysInDepot;
+    }
+
+    /**
+     * Sets the number of days the parcel has been in the depot.
+     *
+     * @param daysInDepot the new number of days in depot
+     */
+    public void setDaysInDepot(int daysInDepot) {
+        this.daysInDepot = daysInDepot;
+    }
+
+    /**
+     * Returns a string representation of the parcel, useful for debugging and logging.
+     *
+     * @return a string containing the parcel's details
+     */
+    @Override
     public String toString() {
-        return "Parcel{" +
-               "parcelID='" + parcelid + 
-               ", daysInDepot=" + days_in_depot +
-               ", weight=" + weight +
-               ", dimensions=" + dimensions +
-               ", Status=" + Status +
-               '}';
-
+        return "ParcelID: " + parcelID + ", Weight: " + weight + ", Dimensions: " + dimensions + ", Days in Depot: " + daysInDepot;
+    }
 }
-
-
-
-

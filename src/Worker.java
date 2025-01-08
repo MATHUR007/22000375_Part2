@@ -1,6 +1,3 @@
-/**
- * Class responsible for calculating fees for parcels.
- */
 public class Worker {
 
     /**
@@ -11,13 +8,13 @@ public class Worker {
      * @return the calculated fee after applying any discounts
      */
     public double calculateFee(Parcel parcel) {
-        double baseFee = 5.0; // Base fee for processing
-        double weightFee = parcel.getWeight() * 0.5; // Fee per kilogram
+        double baseFee = 5.0; 
+        double weightFee = parcel.getWeight() * 0.5; 
         double totalFee = baseFee + weightFee;
 
-        // Apply a discount if the parcel ID ends with '6'
+        // Apply a 10% discount on parcelID ending with "6"
         if (parcel.getParcelID().endsWith("6")) {
-            double discount = totalFee * 0.10; // 10% discount
+            double discount = totalFee * 0.10; 
             totalFee -= discount;
         }
 
